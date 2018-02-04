@@ -2,7 +2,7 @@ import { compose, withState, withHandlers } from 'recompose';
 
 
 const withToggle = (
-  propName = 'show',
+  propName = 'isOpened',
   toggleName = 'toggle',
   defaultValue = false
 ) => compose(

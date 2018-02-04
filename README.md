@@ -58,7 +58,7 @@ Also you get 2 functions: `show` and `hide` for handle state.
 
 ##### Ussage example:
 ```js
-const hoc = withToggle('show', 'toggle', false);
+const hoc = withToggle('isOpened', 'toggle', false);
  
 export default hoc(BaseComponent);
 ```
