@@ -39,22 +39,23 @@ const withInputs = inputs => (BaseComponent) => {
   const initialState = getInitialState(inputs);
 
   class WithInputs extends Component {
-    constructor(props) {
-      super(props);
-
+    constructor() {
+      super();
       this.state = initialState;
     }
 
     handleOnChange(input) {
+      const context = this;
+
       return (event) => {
         const { value } = event.target;
 
         const { validate } = inputs[input];
 
-        this.setState({
+        context.setState({
           [input]: value,
           errors: {
-            ...this.state.errors,
+            ...context.state.errors,
             [input]: getErrorValue({ validate, value }),
           },
         });
