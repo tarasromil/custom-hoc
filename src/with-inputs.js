@@ -1,4 +1,5 @@
-import { createFactory, Component } from 'react';
+import { createFactory } from 'react';
+import { withStateHandlers } from 'recompose';
 
 
 const getErrorValue = ({ validate, value }) => (typeof validate === 'function' ? !validate(value) : false);
@@ -38,46 +39,29 @@ const withInputs = inputs => (BaseComponent) => {
 
   const initialState = getInitialState(inputs);
 
-  class WithInputs extends Component {
-    constructor(props) {
-      super(props);
+  const WithInputs = props => factory({
+    ...props,
+    submitReady: isNoErrors(props.errors),
+  });
 
-      this.state = initialState;
+  const hoc = withStateHandlers(
+    initialState,
+    {
+      onClear: () => initialState,
+      onChange: state => input => event => ({
+        [input]: event.target.value,
+        errors: {
+          ...state.errors,
+          [input]: getErrorValue({
+            validate: inputs[input].validate,
+            value: event.target.value,
+          }),
+        },
+      }),
     }
+  );
 
-    handleOnChange(input) {
-      return (event) => {
-        const { value } = event.target;
-
-        const { validate } = inputs[input];
-
-        this.setState({
-          [input]: value,
-          errors: {
-            ...this.state.errors,
-            [input]: getErrorValue({ validate, value }),
-          },
-        });
-      };
-    }
-
-    handleClear() {
-      this.setState(initialState);
-    }
-
-    render() {
-      return factory({
-        ...this.props,
-        ...this.state,
-        submitReady: isNoErrors(this.state.errors),
-        onChange: this.handleOnChange,
-        onClear: this.handleClear,
-      });
-    }
-  }
-
-
-  return WithInputs;
+  return hoc(WithInputs);
 };
 
 

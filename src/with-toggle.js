@@ -1,18 +1,17 @@
-import { compose, withState, withHandlers } from 'recompose';
+import { withStateHandlers } from 'recompose';
 
 
 const withToggle = (
   propName = 'isOpened',
   toggleName = 'toggle',
   defaultValue = false
-) => compose(
-  withState(propName, toggleName, defaultValue),
-
-  withHandlers({
+) => withStateHandlers(
+  { [propName]: defaultValue },
+  {
     show: props => () => props[toggleName](true),
     hide: props => () => props[toggleName](false),
     [toggleName]: props => () => props[toggleName](!props[propName]),
-  })
+  }
 );
 
 
