@@ -1,7 +1,7 @@
 import { createFactory, Component } from 'react';
 
 
-const getErrorValue = (validate, value) => (typeof validate === 'function' ? !validate(value) : false);
+const getErrorValue = ({ validate, value }) => (typeof validate === 'function' ? !validate(value) : false);
 
 
 const isNoErrors = errors => Object.values(errors).every(err => !err);
@@ -19,15 +19,15 @@ const getDefaultState = (type = 'string') => {
 
 
 const getInitialState = inputs => Object.keys(inputs).reduce((acc, input) => {
-  const item = inputs[input];
-  const value = item.defaultValue || getDefaultState(item.type);
+  const { defaultValue, type, validate } = inputs[input];
+  const value = defaultValue || getDefaultState(type);
 
   return {
     ...acc,
     [input]: value,
     errors: {
       ...acc.errors,
-      [input]: getErrorValue(item.validate, value),
+      [input]: getErrorValue({ validate, value }),
     },
   };
 }, {});
@@ -49,13 +49,13 @@ const withInputs = inputs => (BaseComponent) => {
       return (event) => {
         const { value } = event.target;
 
-        const item = inputs[input];
+        const { validate } = inputs[input];
 
         this.setState({
           [input]: value,
           errors: {
             ...this.state.errors,
-            [input]: getErrorValue(item.validate, value),
+            [input]: getErrorValue({ validate, value }),
           },
         });
       };
