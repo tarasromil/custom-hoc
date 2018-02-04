@@ -31,6 +31,7 @@ const hoc = withInputs({
   firstName: {
     type: 'string',
     validate: value => value.length > 0 && value.length < 25,
+    defaultValue: 'Bob',
   },
   birthday: {
     type: 'date',
