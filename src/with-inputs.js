@@ -1,7 +1,7 @@
 import { createFactory, Component } from 'react';
 
 
-const isFunction = func => typeof func === 'function';
+const getErrorValue = (validate, value) => (typeof validate === 'function' ? validate(value) : false);
 
 
 const isNoErrors = errors => Object.values(errors).every(err => !err);
@@ -27,7 +27,7 @@ const getInitialState = inputs => Object.keys(inputs).reduce((acc, input) => {
     [input]: value,
     errors: {
       ...acc.errors,
-      [input]: isFunction(item.validate),
+      [input]: getErrorValue(item.validate, value),
     },
   };
 }, {});
@@ -51,13 +51,11 @@ const withInputs = inputs => (BaseComponent) => {
 
         const item = inputs[input];
 
-        const errorValue = isFunction(item.validate) ? !item.validate(value) : false;
-
         this.setState({
           [input]: value,
           errors: {
             ...this.state.errors,
-            [input]: errorValue,
+            [input]: getErrorValue(item.validate, value),
           },
         });
       };
