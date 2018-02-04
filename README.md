@@ -24,3 +24,39 @@ Returns props:
 - `submitReady` - returns true when no errors
 - `onChange` - function that returns `onChange` handler
 - `onClear` - function that set values to initial state
+
+#####Ussage example:
+```js
+const hoc = withInputs({
+  firstName: {
+    type: 'string',
+    validate: value => value.length > 0 && value.length < 25,
+  },
+  birthday: {
+    type: 'date',
+    validate: value => (new Date().getFullYear() - value.getFullYear()) > 18,
+  },
+});
+ 
+export default hoc(BaseComponent);
+```
+
+
+### `withToggle()`
+
+```js
+withToggle(
+  propName: String,
+  toggleName: String,
+  defaultValue: Boolean
+): HigherOrderComponent
+```
+
+Passes two additional props to the base component: a state value, and a function to toggle that Boolean state value.
+
+#####Ussage example:
+```js
+const hoc = withToggle('show', 'toggle', false);
+ 
+export default hoc(BaseComponent);
+```
