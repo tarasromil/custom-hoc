@@ -54,6 +54,7 @@ withToggle(
 ```
 
 Passes two additional props to the base component: a state value, and a function to toggle that Boolean state value.
+Also you get 2 functions: `show` and `hide` for handle state.
 
 ##### Ussage example:
 ```js
