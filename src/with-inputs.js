@@ -12,9 +12,6 @@ const getDefaultState = (type = 'string') => {
 };
 
 
-const isFunction = func => typeof func === 'function';
-
-
 const getInitialState = inputs => Object.keys(inputs).reduce((acc, input) => {
   const item = inputs[input];
   const value = item.defaultValue || getDefaultState(item.type);
@@ -28,6 +25,9 @@ const getInitialState = inputs => Object.keys(inputs).reduce((acc, input) => {
     },
   };
 }, {});
+
+
+const isFunction = func => typeof func === 'function';
 
 
 const isNoErrors = errors => Object.values(errors).every(err => !err);

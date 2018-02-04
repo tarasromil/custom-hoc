@@ -7,7 +7,10 @@ const withToggle = (
   defaultValue = false
 ) => compose(
   withState(propName, toggleName, defaultValue),
+
   withHandlers({
+    show: props => () => props[toggleName](true),
+    hide: props => () => props[toggleName](false),
     [toggleName]: props => () => props[toggleName](!props[propName]),
   })
 );
