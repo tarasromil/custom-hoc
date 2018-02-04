@@ -1,0 +1,23 @@
+{
+  "parser": "babel-eslint",
+  "plugins": [
+    "import",
+    "react",
+    "jsx-a11y"
+  ],
+  "rules": {
+    "comma-dangle": ["error", {
+      "arrays": "only-multiline",
+      "objects": "only-multiline",
+      "imports": "only-multiline",
+      "exports": "only-multiline",
+      "functions": "ignore"
+    }],
+    "import/no-extraneous-dependencies": "off",
+    "import/prefer-default-export": "off"
+  },
+  "extends": [
+    "airbnb-base",
+    "plugin:react/recommended"
+  ]
+}

@@ -1,14 +1,22 @@
 {
   "name": "custom-hoc",
-  "version": "0.0.4",
-  "description": "",
-  "main": "index.js",
+  "version": "0.0.5",
+  "description": "Hight-Ordered Components for React",
+  "main": "build/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack --watch",
+    "build": "webpack",
+    "storybook": "start-storybook -p 9001 -c .storybook",
+    "lint": "eslint .",
+    "lint-staged": "lint-staged"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tarasromil/custom-hoc.git"
+  },
+  "lint-staged": {
+    "*.js": "eslint"
   },
   "keywords": [
     "recompose",
@@ -16,14 +24,44 @@
     "enhance",
     "enhancer"
   ],
-  "author": "Taras Romilovych",
+  "author": {
+    "name": "Taras Romilovych",
+    "email": "tarasromil@gmail.com"
+  },
+  "pre-commit": [
+    "lint-staged",
+    "build"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/tarasromil/custom-hoc/issues"
   },
   "homepage": "https://github.com/tarasromil/custom-hoc#readme",
+  "peerDependencies": {
+    "react": "^16.2.0"
+  },
   "dependencies": {
+    "prop-types": "^15.6.0",
     "react": "^16.2.0",
-    "recompose": "^0.26.0"
+    "react-dom": "^16.2.0",
+    "recompose": "^0.26.0",
+    "webpack": "^2.6.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.2.1",
+    "babel-loader": "^7.0.0",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
+    "babel-preset-env": "^1.5.1",
+    "eslint": "^4.16.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-loader": "^1.9.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.6.1",
+    "lint-staged": "^6.1.0",
+    "pre-commit": "^1.2.2"
   }
 }

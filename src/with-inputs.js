@@ -1,6 +1,12 @@
 import { createFactory, Component } from 'react';
 
 
+const isFunction = func => typeof func === 'function';
+
+
+const isNoErrors = errors => Object.values(errors).every(err => !err);
+
+
 const getDefaultState = (type = 'string') => {
   const DEFAULT_STATE = {
     string: '',
@@ -27,37 +33,39 @@ const getInitialState = inputs => Object.keys(inputs).reduce((acc, input) => {
 }, {});
 
 
-const isFunction = func => typeof func === 'function';
-
-
-const isNoErrors = errors => Object.values(errors).every(err => !err);
-
-
 const withInputs = inputs => (BaseComponent) => {
   const factory = createFactory(BaseComponent);
 
   const initialState = getInitialState(inputs);
 
   class WithInputs extends Component {
-    state = initialState;
+    constructor(props) {
+      super(props);
 
-    handleOnChange = input => (event) => {
-      const value = event.target.value;
+      this.state = initialState;
+    }
 
-      const item = inputs[input];
+    handleOnChange(input) {
+      return (event) => {
+        const { value } = event.target;
 
-      const errorValue = isFunction(item.validate) ? !item.validate(value) : false;
+        const item = inputs[input];
 
-      this.setState({
-        [input]: value,
-        errors: {
-          ...this.state.errors,
-          [input]: errorValue,
-        },
-      });
-    };
+        const errorValue = isFunction(item.validate) ? !item.validate(value) : false;
 
-    handleClear = () => this.setState(initialState);
+        this.setState({
+          [input]: value,
+          errors: {
+            ...this.state.errors,
+            [input]: errorValue,
+          },
+        });
+      };
+    }
+
+    handleClear() {
+      this.setState(initialState);
+    }
 
     render() {
       return factory({
