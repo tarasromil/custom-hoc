@@ -25,7 +25,7 @@ Returns props:
 - `onChange` - function that returns `onChange` handler
 - `onClear` - function that set values to initial state
 
-#####Ussage example:
+##### Ussage example:
 ```js
 const hoc = withInputs({
   firstName: {
@@ -54,7 +54,7 @@ withToggle(
 
 Passes two additional props to the base component: a state value, and a function to toggle that Boolean state value.
 
-#####Ussage example:
+##### Ussage example:
 ```js
 const hoc = withToggle('show', 'toggle', false);
  
