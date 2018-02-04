@@ -1,7 +1,7 @@
 import { createFactory, Component } from 'react';
 
 
-const getErrorValue = (validate, value) => (typeof validate === 'function' ? validate(value) : false);
+const getErrorValue = (validate, value) => (typeof validate === 'function' ? !validate(value) : false);
 
 
 const isNoErrors = errors => Object.values(errors).every(err => !err);
