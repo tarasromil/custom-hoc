@@ -1,6 +1,6 @@
 {
   "name": "custom-hoc",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/tarasromil/custom-hoc#readme",
   "dependencies": {
-    "react": "^16.2.0"
+    "react": "^16.2.0",
+    "recompose": "^0.26.0"
   }
 }
