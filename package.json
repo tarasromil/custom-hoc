@@ -1,0 +1,28 @@
+{
+  "name": "custom-hoc",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tarasromil/custom-hoc.git"
+  },
+  "keywords": [
+    "recompose",
+    "hoc",
+    "enhance",
+    "enhancer"
+  ],
+  "author": "Taras Romilovych",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tarasromil/custom-hoc/issues"
+  },
+  "homepage": "https://github.com/tarasromil/custom-hoc#readme",
+  "dependencies": {
+    "react": "^16.2.0"
+  }
+}
