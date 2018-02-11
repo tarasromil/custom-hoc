@@ -19,5 +19,8 @@
   "extends": [
     "airbnb-base",
     "plugin:react/recommended"
-  ]
+  ],
+  "globals": {
+    "window": true
+  }
 }

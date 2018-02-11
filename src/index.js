@@ -1,7 +1,14 @@
-export { default as withInputs } from './with-inputs';
+import withInputs from './with-inputs';
+import withToggle from './with-toggle';
+import withOffset from './with-offset';
+import shouldOpen from './should-open';
+import appendToBody from './append-to-body';
 
-export { default as withToggle } from './with-toggle';
 
-export { default as setRoles } from './set-roles';
-
-export { default as withRoles } from './with-roles';
+export {
+  withInputs,
+  withToggle,
+  withOffset,
+  shouldOpen,
+  appendToBody,
+};

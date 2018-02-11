@@ -69,3 +69,26 @@ const hoc = withToggle('isOpened', 'toggle', false);
  
 export default hoc(BaseComponent);
 ```
+
+
+### `appendToBody()`
+
+```js
+appendToBody(): HigherOrderComponent
+```
+
+
+
+### `withOffset()`
+
+```js
+withOffset(): HigherOrderComponent
+```
+
+
+
+### `shouldOpen()`
+
+```js
+shouldOpen(): HigherOrderComponent
+```
