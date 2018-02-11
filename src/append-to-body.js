@@ -63,7 +63,10 @@ const appendToBody = ({
 
 
   AppendToBody.propTypes = {
-    root: T.node.isRequired,
+    root: T.oneOfType([
+      T.node,
+      T.element,
+    ]).isRequired,
     offset: T.object,
   };
 

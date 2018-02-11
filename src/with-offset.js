@@ -139,7 +139,10 @@ const withOffset = ({ selector, transition = 0 }) => (BaseComponent) => {
 
 
   WithOffset.propTypes = {
-    root: T.node.isRequired,
+    root: T.oneOfType([
+      T.node,
+      T.element,
+    ]).isRequired,
   };
 
   return WithOffset;
