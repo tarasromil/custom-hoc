@@ -8,8 +8,6 @@ import { withInputs } from '../';
 describe('withInputs', () => {
   const Component = sinon.spy(() => null);
 
-  Component.displayName = 'Component';
-
   const props = () => Component.lastCall.args[0];
 
   const TextInputs = withInputs({
@@ -27,6 +25,7 @@ describe('withInputs', () => {
       validate: value => !Number.isNaN(value),
     },
   })(Component);
+
 
   mount(<TextInputs />);
 
