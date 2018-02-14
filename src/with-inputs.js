@@ -18,9 +18,23 @@ const getDefaultState = (type = 'string') => {
 };
 
 
+const determineValue = (defaultValue, type) => {
+  const value = defaultValue || getDefaultState(type);
+
+  switch (type) {
+    case 'number':
+      return Number.parseInt(value, 10);
+    case 'date':
+      return new Date(value);
+    default:
+      return value;
+  }
+};
+
+
 const getInitialState = inputs => Object.keys(inputs).reduce((acc, input) => {
   const { defaultValue, type, validate } = inputs[input];
-  const value = defaultValue || getDefaultState(type);
+  const value = determineValue(defaultValue, type);
 
   return {
     ...acc,

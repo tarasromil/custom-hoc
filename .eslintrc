@@ -21,6 +21,10 @@
     "plugin:react/recommended"
   ],
   "globals": {
-    "window": true
+    "window": true,
+    "jasmine": true,
+    "describe": true,
+    "test": true,
+    "expect": true
   }
 }
