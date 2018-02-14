@@ -6,21 +6,7 @@ import { withInputs } from '../';
 
 
 describe('withInputs', () => {
-  const Component = sinon.spy(({
-    name,
-    birthday,
-    zip,
-    onChange,
-    submitReady,
-  }) => (
-    <div>
-      <input type="text" id="name" value={name} onChange={onChange('name')} />
-      <input type="date" id="birthday" value={birthday} onChange={onChange('birthday')} />
-      <input type="number" id="zip" value={zip} onChange={onChange('zip')} />
-
-      <button disabled={!submitReady}>submit</button>
-    </div>
-  ));
+  const Component = sinon.spy(() => null);
 
   Component.displayName = 'Component';
 
