@@ -5,6 +5,9 @@ import sinon from 'sinon';
 import { withInputs } from '../';
 
 
+const toEvent = value => ({ target: { value } });
+
+
 describe('withInputs', () => {
   const Component = sinon.spy(() => null);
 
@@ -44,15 +47,15 @@ describe('withInputs', () => {
   });
 
   test('withInputs => Change values and check validation', () => {
-    props().onChange('name')({ target: { value: 'Alice' } });
+    props().onChange('name')(toEvent('Alice'));
 
     expect(props().name).toBe('Alice');
 
-    props().onChange('birthday')({ target: { value: new Date(0) } });
+    props().onChange('birthday')(toEvent(new Date(0)));
 
     expect(props().birthday.getYear()).toBe(70);
 
-    props().onChange('zip')({ target: { value: 'foo' } });
+    props().onChange('zip')(toEvent('foo'));
 
     expect(Object.values(props().errors).every(e => e)).toBeFalsy();
     expect(props().submitReady).toBeFalsy();
