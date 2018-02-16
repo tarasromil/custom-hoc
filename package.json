@@ -1,10 +1,25 @@
 {
   "name": "custom-hoc",
   "version": "0.0.22",
-  "description": "Hight-Ordered Components for React",
+  "description": "Hight-ordered Components for React",
   "main": "build/index.js",
+  "keywords": [
+    "recompose",
+    "hoc",
+    "enhance",
+    "enhancer"
+  ],
+  "bugs": {
+    "url": "https://github.com/tarasromil/custom-hoc/issues"
+  },
+  "homepage": "https://github.com/tarasromil/custom-hoc#readme",
+  "author": {
+    "name": "Taras Romilovych",
+    "email": "tarasromil@gmail.com"
+  },
+  "license": "MIT",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npm run build && cross-env BABEL_ENV=cjs jest --coverage",
     "start": "webpack --watch",
     "build": "webpack",
     "lint": "eslint .",
@@ -17,34 +32,25 @@
   "lint-staged": {
     "*.js": "eslint"
   },
-  "keywords": [
-    "recompose",
-    "hoc",
-    "enhance",
-    "enhancer"
-  ],
-  "author": {
-    "name": "Taras Romilovych",
-    "email": "tarasromil@gmail.com"
-  },
   "pre-commit": [
     "lint-staged",
+    "test",
     "build"
   ],
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/tarasromil/custom-hoc/issues"
-  },
-  "homepage": "https://github.com/tarasromil/custom-hoc#readme",
-  "peerDependencies": {
-    "react": "^16.2.0"
+  "jest": {
+    "testMatch": [
+      "<rootDir>/src/tests/*.test.js"
+    ],
+    "coverageReporters": [
+      "text-summary",
+      "lcov"
+    ],
+    "setupTestFrameworkScriptFile": "<rootDir>/scripts/jest.setup.js"
   },
   "dependencies": {
-    "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "recompose": "^0.26.0",
-    "webpack": "^2.6.1"
+    "recompose": "^0.26.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -54,13 +60,24 @@
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-plugin-transform-react-jsx": "^6.24.1",
     "babel-preset-env": "^1.5.1",
+    "cross-env": "^5.1.3",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^4.16.0",
     "eslint-config-airbnb": "^16.1.0",
+    "eslint-config-prettier": "^2.9.0",
     "eslint-loader": "^1.9.0",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-prettier": "^2.6.0",
     "eslint-plugin-react": "^7.6.1",
+    "jest": "^22.3.0",
     "lint-staged": "^6.1.0",
-    "pre-commit": "^1.2.2"
+    "pre-commit": "^1.2.2",
+    "prettier": "^1.10.2",
+    "prop-types": "^15.6.0",
+    "react-test-renderer": "^16.2.0",
+    "sinon": "^4.3.0",
+    "webpack": "^2.6.1"
   }
 }
