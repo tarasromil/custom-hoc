@@ -62,24 +62,27 @@ const withInputs = inputs => (BaseComponent) => {
       this.state = initialState;
     }
 
-    handleOnChange(input) {
+    handleOnChange(input, callback) {
       return (event) => {
         const { value } = event.target;
 
         const { validate } = inputs[input];
 
-        this.setState({
-          [input]: value,
-          errors: {
-            ...this.state.errors,
-            [input]: getErrorValue({ validate, value }),
+        this.setState(
+          {
+            [input]: value,
+            errors: {
+              ...this.state.errors,
+              [input]: getErrorValue({ validate, value }),
+            },
           },
-        });
+          callback,
+        );
       };
     }
 
-    handleClear() {
-      this.setState(initialState);
+    handleClear(callback) {
+      this.setState(initialState, callback);
     }
 
     render() {
