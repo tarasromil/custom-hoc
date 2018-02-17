@@ -105,7 +105,7 @@ withOffset(
 ): HigherOrderComponent
 ```
 
-Calculate position of component relative to anchor (CSS selector or Node).
+Calculates position of component relative to anchor (CSS selector or Node).
 Also recalculate new position after resizing window
 ##### Returns props:
 - `node: Element` Node with position
@@ -121,4 +121,22 @@ const hoc = withOffset(
 export default hoc(BaseComponent);
 ```
 
+
+### `appendToBody()`
+
+```js
+appendToBody(): HigherOrderComponent
+```
+
+Creates portal for your element and append it to body
+
+##### Returns props:
+- No props
+
+##### Ussage example:
+```js
+const hoc = appendToBody();
+ 
+export default hoc(BaseComponent);
+```
 

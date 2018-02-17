@@ -1,14 +1,5 @@
-import withInputs from './with-inputs';
-import withToggle from './with-toggle';
-import shouldRender from './should-render';
-import withOffset from './with-offset';
-import appendToBody from './append-to-body';
-
-
-export {
-  withInputs,
-  withToggle,
-  shouldRender,
-  withOffset,
-  appendToBody,
-};
+export { default as withInputs } from './with-inputs';
+export { default as withToggle } from './with-toggle';
+export { default as shouldRender } from './should-render';
+export { default as withOffset } from './with-offset';
+export { default as appendToBody } from './append-to-body';
