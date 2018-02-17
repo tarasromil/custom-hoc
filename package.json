@@ -1,6 +1,6 @@
 {
   "name": "custom-hoc",
-  "version": "0.0.22",
+  "version": "0.0.23",
   "description": "Hight-ordered Components for React",
   "main": "build/index.js",
   "keywords": [
