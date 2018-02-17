@@ -95,3 +95,30 @@ const hoc = shouldRender(props => props.shouldRenderChildren);
 export default hoc(BaseComponent);
 ```
 
+
+### `withOffset()`
+
+```js
+withOffset(
+  getAnchor: Function, // Returns null (by default)
+  transition: Number,  // 0 (by default)
+): HigherOrderComponent
+```
+
+Calculate position of component relative to anchor (CSS selector or Node).
+Also recalculate new position after resizing window
+##### Returns props:
+- `node: Element` Node with position
+- `offset: Object` Object with position - `{ top: Number, left: Number }`
+
+##### Ussage example:
+```js
+const hoc = withOffset(
+  props => props.anchor, // anchor: '.btn' | Element
+  200,                   // Time for animation in ms 
+);
+ 
+export default hoc(BaseComponent);
+```
+
+
