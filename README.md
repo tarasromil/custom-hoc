@@ -73,3 +73,25 @@ const hoc = withToggle('isOpened', 'toggle', false);
  
 export default hoc(BaseComponent);
 ```
+
+
+### `shouldRender()`
+
+```js
+shouldRender(
+  shouldRenderFunction: Function, // Returns true (by default)
+): HigherOrderComponent
+```
+
+Determines the cases in which the component should render
+
+##### Returns props:
+- No props 
+
+##### Ussage example:
+```js
+const hoc = shouldRender(props => props.shouldRenderChildren);
+ 
+export default hoc(BaseComponent);
+```
+

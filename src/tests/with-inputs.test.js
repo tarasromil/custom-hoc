@@ -13,7 +13,7 @@ describe('withInputs', () => {
 
   const props = () => Component.lastCall.args[0];
 
-  const TextInputs = withInputs({
+  const EnhancedComponent = withInputs({
     name: {
       defaultValue: 'Bob',
       validate: value => value.length,
@@ -30,7 +30,7 @@ describe('withInputs', () => {
   })(Component);
 
 
-  mount(<TextInputs />);
+  mount(<EnhancedComponent />);
 
 
   test('withInputs => Initial props', () => {
