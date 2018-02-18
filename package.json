@@ -1,13 +1,15 @@
 {
   "name": "custom-hoc",
-  "version": "0.0.24",
-  "description": "Hight-ordered Components for React",
+  "version": "0.0.25",
+  "description": "Higher-order Components for React",
   "main": "build/index.js",
   "keywords": [
     "recompose",
     "hoc",
     "enhance",
-    "enhancer"
+    "enhancer",
+    "react",
+    "react-dom"
   ],
   "bugs": {
     "url": "https://github.com/tarasromil/custom-hoc/issues"
