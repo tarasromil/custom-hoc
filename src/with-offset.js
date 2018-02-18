@@ -164,7 +164,6 @@ const withOffset = (getAnchor = () => null, transition = 0) => (BaseComponent) =
         >
           {withOffsetFactory({
             ...this.props,
-            node: this.node,
             offset: this.state,
           })}
         </div>

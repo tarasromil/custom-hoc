@@ -1,6 +1,9 @@
 import { createFactory, Component } from 'react';
 
 
+const determineCallback = callback => (typeof callback === 'function' ? callback : null);
+
+
 const withToggle = (
   propName = 'isOpened',
   toggleName = 'toggle',
@@ -21,15 +24,18 @@ const withToggle = (
     }
 
     [toggleName](callback) {
-      this.setState({ [propName]: !this.state[propName] }, callback);
+      const afterCallback = determineCallback(callback);
+      this.setState({ [propName]: !this.state[propName] }, afterCallback);
     }
 
     show(callback) {
-      this.setState({ [propName]: true }, callback);
+      const afterCallback = determineCallback(callback);
+      this.setState({ [propName]: true }, afterCallback);
     }
 
     hide(callback) {
-      this.setState({ [propName]: false }, callback);
+      const afterCallback = determineCallback(callback);
+      this.setState({ [propName]: false }, afterCallback);
     }
 
     render() {

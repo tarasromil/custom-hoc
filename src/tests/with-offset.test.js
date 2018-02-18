@@ -15,9 +15,8 @@ describe('withOffset', () => {
 
     mount(<EnhancedComponent />);
 
-    const { node, offset } = props();
+    const { offset } = props();
 
-    expect(node instanceof window.Element).toBeTruthy();
     expect(typeof offset).toBe('object');
     expect(typeof offset.top).toBe('number');
     expect(typeof offset.left).toBe('number');

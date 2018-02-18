@@ -108,7 +108,6 @@ withOffset(
 Calculates position of component relative to anchor (CSS selector or Node).
 Also recalculate new position after resizing window
 ##### Returns props:
-- `node: Element` Node with position
 - `offset: Object` Object with position - `{ top: Number, left: Number }`
 
 ##### Ussage example:
@@ -125,7 +124,9 @@ export default hoc(BaseComponent);
 ### `appendToBody()`
 
 ```js
-appendToBody(): HigherOrderComponent
+appendToBody(
+  className: String
+): HigherOrderComponent
 ```
 
 Creates portal for your element and append it to body
@@ -135,7 +136,35 @@ Creates portal for your element and append it to body
 
 ##### Ussage example:
 ```js
-const hoc = appendToBody();
+const hoc = appendToBody(
+  'opacity-50',
+);
+ 
+export default hoc(BaseComponent);
+```
+
+
+### `withOutsideClick()`
+
+```js
+withOutsideClick(
+  getOnClick: Function, // Returns null (by default)
+  useEscape: Boolean,   // true (by default)
+): HigherOrderComponent
+```
+
+Adds Event Listeners for your wrapped Component.
+When you click outside of Component or presses "Escape" (optional) you can fire callback
+
+##### Returns props:
+- No props
+
+##### Ussage example:
+```js
+const hoc = withOutsideClick(
+  props => props.onHide, // Click callback
+  false,                 // Use "Escape" key
+);
  
 export default hoc(BaseComponent);
 ```

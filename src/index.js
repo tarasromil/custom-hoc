@@ -3,3 +3,4 @@ export { default as withToggle } from './with-toggle';
 export { default as shouldRender } from './should-render';
 export { default as withOffset } from './with-offset';
 export { default as appendToBody } from './append-to-body';
+export { default as withOutsideClick } from './with-outside-click';
