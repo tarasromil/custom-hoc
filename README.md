@@ -169,3 +169,52 @@ const hoc = withOutsideClick(
 export default hoc(BaseComponent);
 ```
 
+
+### `setRoles()`
+
+```js
+setRoles(
+  gerRoles: Function, // Returns roles and sets it to context
+): HigherOrderComponent
+```
+
+Sets user roles to context. You can pass String or Array of Strings 
+
+
+##### Returns props:
+- No props
+
+##### Ussage example:
+```js
+const hoc = setRoles(
+  props => props.currentUser.roles, // Array or String
+);
+ 
+export default hoc(BaseComponent);
+```
+
+
+### `withRoles()`
+
+```js
+withRoles(
+  roles: Array | String, // Roles for comparing
+): HigherOrderComponent
+```
+
+Compares passed `roles` with `roles` from context and checks cases when component should render.
+It should be used with `setRoles`
+
+
+##### Returns props:
+- `roles` Returns `roles` value from context
+
+##### Ussage example:
+```js
+const hoc = withRoles(
+  ['admin', 'member'], // String or Array of String
+);
+ 
+export default hoc(BaseComponent);
+```
+
