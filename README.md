@@ -11,20 +11,20 @@ withInputs(
 ```
 Accepts object which has key (controlled input field name) and value (config)
 Config can contains:
-```
+```js
 {
-  type: 'string' (by default) | 'number' | 'date': String,
-  validate: (value: String) => Boolean, | true
-  defaultValue: Any | 'string': '' | 'number': 0 | 'date': new Date()
+  type: string, // allowed types: string | number | date
+  validate: (value: string) => boolean,
+  defaultValue: any, // default values: string: '', number: 0, date: new Date()
 } 
 ```
 
 ##### Returns props:
 - List of fields values (`firstName`, `lastName`, `email`, etc.)
 - `errors: Object `Errors list
-- `submitReady: Boolean` - Returns true when no errors
-- `onChange: Function` - Returns `onChange` event handler. Receives field name and callback
-- `onClear: Function` - Sets all values to initial state. Receives callback
+- `submitReady: boolean` - Returns true when no errors
+- `onChange: function` - Returns `onChange` event handler. Receives field name and callback
+- `onClear: function` - Sets all values to initial state. Receives callback
 
 ##### Ussage example:
 ```js
@@ -52,9 +52,9 @@ export default hoc(BaseComponent);
 
 ```js
 withToggle(              // By default
-  propName: String,      // 'isOpened'
-  toggleName: String,    // 'toggle'
-  defaultValue: Boolean, // false
+  propName: string,      // 'isOpened'
+  toggleName: string,    // 'toggle'
+  defaultValue: boolean, // false
 ): HigherOrderComponent
 ```
 
@@ -64,8 +64,8 @@ Also you get 2 functions: `show` and `hide` for handle state.
 ##### Returns props:
 - `[propName]: Boolean` State of value
 - `[toggleName]: Function` Sets inverted `[propName]` state
-- `show: Function` Sets `[propName]` to `true`
-- `hide: Function` Sets `[propName]` to `false`
+- `show: function` Sets `[propName]` to `true`
+- `hide: function` Sets `[propName]` to `false`
 
 ##### Ussage example:
 ```js
@@ -79,7 +79,7 @@ export default hoc(BaseComponent);
 
 ```js
 shouldRender(
-  shouldRenderFunction: Function, // Returns true (by default)
+  shouldRenderFunction: (props: Object) => boolean
 ): HigherOrderComponent
 ```
 
@@ -90,7 +90,7 @@ Determines the cases in which the component should render
 
 ##### Ussage example:
 ```js
-const hoc = shouldRender(props => props.shouldRenderChildren);
+const hoc = shouldRender(props => props.shouldRenderProperty);
  
 export default hoc(BaseComponent);
 ```
@@ -100,8 +100,8 @@ export default hoc(BaseComponent);
 
 ```js
 withOffset(
-  getAnchor: Function, // Returns null (by default)
-  transition: Number,  // 0 (by default)
+  getAnchor: (props: Object) => string, // CSS selector or Node
+  transition: number, // optional
 ): HigherOrderComponent
 ```
 
@@ -113,7 +113,7 @@ Also recalculate new position after resizing window
 ##### Ussage example:
 ```js
 const hoc = withOffset(
-  props => props.anchor, // anchor: '.btn' | Element
+  props => props.anchor, // anchor: '.btn' | Node
   200,                   // Time for animation in ms 
 );
  
@@ -125,7 +125,7 @@ export default hoc(BaseComponent);
 
 ```js
 appendToBody(
-  className: String
+  className: string
 ): HigherOrderComponent
 ```
 
@@ -148,13 +148,15 @@ export default hoc(BaseComponent);
 
 ```js
 withOutsideClick(
-  getOnClick: Function, // Returns null (by default)
-  useEscape: Boolean,   // true (by default)
+  getOnClick: (props: Object) => function,
+  useEscape: boolean,
+  additionalKeyCodes: Array<number>,
 ): HigherOrderComponent
 ```
 
 Adds Event Listeners for your wrapped Component.
-When you click outside of Component or presses "Escape" (optional) you can fire callback
+When you click outside of Component you can fire callback.
+Also youcan pass additional `keyCodes` for firing or include "Escape" - `useEscape`
 
 ##### Returns props:
 - No props
@@ -162,10 +164,11 @@ When you click outside of Component or presses "Escape" (optional) you can fire 
 ##### Ussage example:
 ```js
 const hoc = withOutsideClick(
-  props => props.onHide, // Click callback
-  false,                 // Use "Escape" key
+  props => props.onHide, // Returns null (by default)
+  false,                 // true (by default)
+  [27, 13, 65],
 );
- 
+
 export default hoc(BaseComponent);
 ```
 
@@ -174,7 +177,7 @@ export default hoc(BaseComponent);
 
 ```js
 setRoles(
-  gerRoles: Function, // Returns roles and sets it to context
+  gerRoles: (props: Object) => Array<string> | (props: Object) => string,
 ): HigherOrderComponent
 ```
 
@@ -198,7 +201,7 @@ export default hoc(BaseComponent);
 
 ```js
 withRoles(
-  roles: Array | String, // Roles for comparing
+  roles: Array<string> | string,
 ): HigherOrderComponent
 ```
 
@@ -212,7 +215,7 @@ It should be used with `setRoles`
 ##### Ussage example:
 ```js
 const hoc = withRoles(
-  ['admin', 'member'], // String or Array of String
+  ['admin', 'member'], // Roles for comparing - String or Array of String
 );
  
 export default hoc(BaseComponent);

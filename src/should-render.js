@@ -1,16 +1,18 @@
+/** @module custom-hoc/should-render */
 import { createFactory } from 'react';
 
 
 /**
- * @param shouldRenderFunction {Function}
- * @returns {HoC} Height-Order Component
+ * @param {function} getCondition - Returns condition statement that handles rendering Component
+ * @returns {Component}
  */
-const shouldRender = (shouldRenderFunction = () => true) => (BaseComponent) => {
-  const showRenderFactory = createFactory(BaseComponent);
+const shouldRender = (getCondition = () => true) => (BaseComponent) => {
+  const shouldRenderFactory = createFactory(BaseComponent);
 
+  /** @function ShouldRender */
   const ShouldRender = (props) => {
-    if (shouldRenderFunction(props)) {
-      return showRenderFactory(props);
+    if (getCondition(props)) {
+      return shouldRenderFactory(props);
     }
 
     return null;

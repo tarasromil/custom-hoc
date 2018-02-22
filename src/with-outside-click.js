@@ -1,48 +1,61 @@
+/** @module custom-hoc/with-outside-click */
 import React, { createFactory, Component } from 'react';
 
-import { eventStackFactory } from './utils';
+import { eventStackFactory } from 'event-stack-factory';
 
 
+/** @type {{push: (function(Object)), pop: (function())}} */
 const EventStack = eventStackFactory({ capture: true });
 
 
 /**
- * @param getOnClick {Function} Receives props and returns onClickOutsideCallback
- * @param useEscape {Boolean} State of using "Escape" key for calling callback
- * @returns {Function|HoC}
+ * @param {function} getOnClick - Receives props and returns onClickOutsideCallback
+ * @param {boolean} useEscape - State of using "Escape" key for firing callback
+ * @param {Array} additionalKeyCodes - Array with keyCodes for firing callback
+ * @returns {Component}
  */
-const withOutsideClick = (getOnClick = () => null, useEscape = true) => (BaseComponent) => {
-  const factory = createFactory(BaseComponent);
+const withOutsideClick = (getOnClick = () => null, useEscape = true, additionalKeyCodes = []) => (BaseComponent) => {
+  const withOutsideFactory = createFactory(BaseComponent);
 
+  let keyCodes = additionalKeyCodes.slice();
 
+  if (useEscape && !keyCodes.includes(27)) {
+    keyCodes = keyCodes.concat(27);
+  }
+
+  /**
+   * @class WithOutsideClick
+   * @extends React.Component
+   */
   class WithOutsideClick extends Component {
-    constructor(props) {
-      super(props);
+    /** @method */
+    componentDidMount() {
+      const clickOutside = getOnClick(this.props);
 
-      const clickOutside = getOnClick(props);
-
-      this.onClick = (event) => {
-        if (this.isMouseClick(event) || this.isEscape(event)) {
+      const onClick = (event) => {
+        if (this.isClick(event) || this.isKeydown(event)) {
           clickOutside(event);
         }
       };
-    }
 
-    componentDidMount() {
-      let events = { click: this.onClick };
-
-      if (useEscape) {
-        events = { ...events, keydown: this.onClick };
-      }
+      const events = (keyCodes.length > 0) ?
+        { click: onClick, keydown: onClick } :
+        { click: onClick };
 
       EventStack.push(events);
     }
 
+    /** @method */
     componentWillUnmount() {
       EventStack.pop();
     }
 
-    isMouseClick(event) {
+    /**
+     * @method
+     * @param event
+     * @returns {boolean}
+     */
+    isClick(event) {
       return (
         event.type === 'click'
         && event.which === 1
@@ -50,14 +63,31 @@ const withOutsideClick = (getOnClick = () => null, useEscape = true) => (BaseCom
       );
     }
 
-    isEscape(event) {
-      return (
-        useEscape
+    /**
+     * @method
+     * @param event
+     * @returns {boolean}
+     */
+    isKeydown(event) {
+      const isKeydown = (
+        keyCodes.length > 0
         && event.type === 'keydown'
-        && event.keyCode === 27
+        && keyCodes.includes(event.keyCode)
       );
+
+      if (isKeydown) {
+        event.preventDefault();
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+      }
+
+      return isKeydown;
     }
 
+    /**
+     * @method
+     * @returns {JSX}
+     */
     render() {
       return (
         <div
@@ -65,7 +95,7 @@ const withOutsideClick = (getOnClick = () => null, useEscape = true) => (BaseCom
           className="withOutsideClick"
           ref={(node) => { this.node = node; }}
         >
-          {factory(this.props)}
+          {withOutsideFactory(this.props)}
         </div>
       );
     }

@@ -13,6 +13,6 @@ describe('withRoles', () => {
 
     mount(<EnhancedComponent />);
 
-    expect(Component.calledOnce).toBeTruthy();
+    expect(Component.calledOnce).toBeFalsy();
   });
 });

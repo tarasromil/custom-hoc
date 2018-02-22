@@ -1,3 +1,5 @@
+/** @module custom-hoc */
+
 export { default as withInputs } from './with-inputs';
 export { default as withToggle } from './with-toggle';
 export { default as shouldRender } from './should-render';

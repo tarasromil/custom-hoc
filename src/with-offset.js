@@ -1,3 +1,4 @@
+/** @module custom-hoc/with-offset */
 import React, { Component, createFactory } from 'react';
 
 

@@ -1,70 +1,67 @@
+/** @module custom-hoc/with-roles */
 import { createFactory } from 'react';
 import T from 'prop-types';
 
 
-const isString = string => typeof string === 'string';
+/**
+ * Contains types for roles
+ * @type {{roles: Array|String}}
+ */
+const contextTypes = {
+  roles: T.oneOfType([
+    T.string,
+    T.array,
+  ]),
+};
 
 
-const isArray = array => Array.isArray(array);
-
-
-const checkAllowedRoles = (allowedRoles) => {
-  if (!isString(allowedRoles) && !isArray(allowedRoles)) {
+/**
+ * @throws Exception if "roles" is not Array or String
+ * @param roles {*}
+ */
+const checkAllowedRoles = (roles) => {
+  if (typeof roles !== 'string' && !Array.isArray(roles)) {
     throw new Error('You must pass right roles (Array or String)');
   }
 };
 
 
-const withRoles = allowedRoles => (BaseComponent) => {
-  checkAllowedRoles(allowedRoles);
+/**
+ * @param {string|Array} contextRoles - Roles from parent context
+ * @param {string|Array} allowedRoles - Roles from passed arguments
+ * @return {boolean}
+ */
+const areRolesMatchs = (contextRoles, allowedRoles) => {
+  const arrayContextRoles = [].concat(contextRoles);
+  const arrayAllowedRoles = [].concat(allowedRoles);
 
-  const isAllowedRolesString = isString(allowedRoles);
-  const isAllowedRolesArray = isArray(allowedRoles);
-
-
-  const whenRolesIsArray = (roles) => {
-    if (isAllowedRolesArray) {
-      return allowedRoles.some(role => roles.includes(role));
-    } else if (isAllowedRolesString) {
-      return roles.includes(allowedRoles);
-    }
-    return false;
-  };
+  return arrayContextRoles.some(role => arrayAllowedRoles.includes(role));
+};
 
 
-  const whenRolesIsString = (roles) => {
-    if (isAllowedRolesArray) {
-      return allowedRoles.includes(roles);
-    } else if (isAllowedRolesString) {
-      return allowedRoles === roles;
-    }
-    return false;
-  };
-
-
+/**
+ * Compares roles from context and passed allowed roles
+ * and checks cases when component should render.
+ * @param {function|string|Array} getAllowedRoles
+ * @returns {Component}
+ */
+const withRoles = getAllowedRoles => (BaseComponent) => {
   const withRolesFactory = createFactory(BaseComponent);
 
+  /** @function WithRoles */
+  const WithRoles = (props, context) => {
+    const allowedRoles = typeof getAllowedRoles === 'function' ?
+      getAllowedRoles(props) :
+      getAllowedRoles;
 
-  const WithRoles = (props, { roles }) => {
-    let shouldRender = roles === undefined;
+    checkAllowedRoles(allowedRoles);
 
-    if (isArray(roles)) {
-      shouldRender = whenRolesIsArray(roles);
-    } else if (isString(roles)) {
-      shouldRender = whenRolesIsString(roles);
-    }
+    const rolesMatchs = areRolesMatchs(context.roles, allowedRoles);
 
-    return shouldRender ? withRolesFactory({ ...props, roles }) : null;
+    return rolesMatchs ? withRolesFactory({ ...props, roles: context.roles }) : null;
   };
 
-
-  WithRoles.contextTypes = {
-    roles: T.oneOfType([
-      T.string,
-      T.array,
-    ]),
-  };
-
+  WithRoles.contextTypes = contextTypes;
 
   return WithRoles;
 };
