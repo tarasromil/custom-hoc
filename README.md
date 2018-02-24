@@ -2,6 +2,33 @@
 
 # Higher-order components:
 
+
+### `compose()`
+
+```js
+compose(
+  ...functions: Array<Function>: Function,
+): HigherOrderComponent
+```
+
+Combines multiple Higher-order components into one Higher-order component
+
+
+##### Returns props:
+- No props 
+
+##### Ussage example:
+```js
+const hoc = compose(
+  withToggle(),
+  withInputs({ email: 1, name: 1  }),
+);
+ 
+export default hoc(BaseComponent);
+```
+
+
+
 ### `withInputs()`
 
 ```js
@@ -23,8 +50,8 @@ Config can contains:
 - List of fields values (`firstName`, `lastName`, `email`, etc.)
 - `errors: Object `Errors list
 - `submitReady: boolean` - Returns true when no errors
-- `onChange: function` - Returns `onChange` event handler. Receives field name and callback
-- `onClear: function` - Sets all values to initial state. Receives callback
+- `onChange: Function` - Returns `onChange` event handler. Receives field name and callback
+- `onClear: Function` - Sets all values to initial state. Receives callback
 
 ##### Ussage example:
 ```js
@@ -64,8 +91,8 @@ Also you get 2 functions: `show` and `hide` for handle state.
 ##### Returns props:
 - `[propName]: Boolean` State of value
 - `[toggleName]: Function` Sets inverted `[propName]` state
-- `show: function` Sets `[propName]` to `true`
-- `hide: function` Sets `[propName]` to `false`
+- `show: Function` Sets `[propName]` to `true`
+- `hide: Function` Sets `[propName]` to `false`
 
 ##### Ussage example:
 ```js
@@ -148,7 +175,7 @@ export default hoc(BaseComponent);
 
 ```js
 withOutsideClick(
-  getOnClick: (props: Object) => function,
+  getOnClick: (props: Object) => Function,
   useEscape: boolean,
   additionalKeyCodes: Array<number>,
 ): HigherOrderComponent

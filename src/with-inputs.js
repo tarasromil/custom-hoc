@@ -66,6 +66,7 @@ const getInitialState = inputs => Object.keys(inputs).reduce((acc, input) => {
   const state = {
     ...acc,
     [input]: value,
+    errors: {},
   };
 
   if (typeof validate === 'function') {

@@ -120,7 +120,7 @@ const calculateOffset = (anchor, rootElement) => {
 /**
  * @param getAnchor {Function}
  * @param transition {Number}
- * @returns {HoC}
+ * @returns {Component}
  */
 const withOffset = (getAnchor = () => null, transition = 0) => (BaseComponent) => {
   const withOffsetFactory = createFactory(BaseComponent);
