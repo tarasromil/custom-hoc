@@ -40,7 +40,7 @@ Accepts object which has key (controlled input field name) and value (config)
 Config can contains:
 ```js
 {
-  type: string, // allowed types: string | number | date
+  type: string, // allowed types: string | number | date | array
   validate: (value: string) => boolean,
   defaultValue: any, // default values: string: '', number: 0, date: new Date()
 } 
@@ -62,13 +62,17 @@ const hoc = withInputs({
   },
   birthday: {
     type: 'date',
-    validate: value => (new Date().getFullYear() - value.getFullYear()) > 18,
+    validate: value => (new Date().getFullYear() - value.getFullYear()) > 18, // // greater than 15 year
   },
-  number: {
+  age: {
     type: 'number',
-    validate: value => value >= 21,
+    validate: value => value >= 21, // greater than 21 year
     defaultValue: 18,
-  }
+  },
+  hobbies: {
+    type: 'array',
+    validate: value => value.length > 1, // more than one hobby
+  },
 });
  
 export default hoc(BaseComponent);

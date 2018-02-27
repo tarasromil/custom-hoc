@@ -3,8 +3,51 @@ import { createFactory, Component } from 'react';
 
 
 /**
+ * @param {HTMLElement} target - Checking element
+ * @param {string[]} oldValues - Current values from state
+ * @returns {string[]}
+ */
+const getChecked = (target, oldValues) => {
+  const newSet = new Set(oldValues);
+  if (target.checked) {
+    newSet.add(target.value);
+  } else {
+    newSet.delete(target.value);
+  }
+  return [...newSet];
+};
+
+
+/**
+ * @param {HTMLElement} select - Checking element
+ * @returns {string[]}
+ */
+const getSelected = select => ([...select]
+  .filter(option => option.selected)
+  .map(option => option.value));
+
+
+/**
+ * Checks for selected type
+ * @param {HTMLElement} target - Checking element
+ * @returns {boolean}
+ */
+const isSelectTarget = target => target.checked === undefined && target.type === 'select-multiple';
+
+
+/**
+ * @param {HTMLElement} target - Checking element
+ * @param {string[]} oldValues - Current values from state
+ * @returns {string[]} - Returns array of selected or checked items
+ */
+const getArrayValue = (target, oldValues) => (isSelectTarget(target) ?
+  getSelected(target) :
+  getChecked(target, oldValues));
+
+
+/**
  * @param {function} validate - Validator function
- * @param {string|number|Date} value - Value to validate
+ * @param {string|number|Date|Array} value - Value to validate
  * @returns {boolean} - Validation result
  */
 const getErrorValue = (validate, value) => !validate(value);
@@ -20,13 +63,14 @@ const isNoErrors = (errors = {}) => Object.values(errors).every(err => !err);
 
 /**
  * @param {string} type - Type of state value
- * @returns {string|number|Date} - Default value for state
+ * @returns {string|number|Date|Array} - Default value for state
  */
 const getDefaultState = (type = 'string') => {
   const DEFAULT_STATE = {
     string: '',
     number: 0,
     date: new Date(),
+    array: [],
   };
 
   return DEFAULT_STATE[type];
@@ -34,9 +78,9 @@ const getDefaultState = (type = 'string') => {
 
 
 /**
- * @param {string|number|Date} defaultValue - Value that will sets by default to state
+ * @param {string|number|Date|Array} defaultValue - Value that will sets by default to state
  * @param {string} type - Type of state value
- * @returns {string|number|Date} - Value for state according to type
+ * @returns {string|number|Date|Array} - Value for state according to type
  */
 const determineValue = (defaultValue, type) => {
   const value = defaultValue || getDefaultState(type);
@@ -48,6 +92,8 @@ const determineValue = (defaultValue, type) => {
       return Number.parseInt(value, 10);
     case 'date':
       return new Date(value);
+    case 'array':
+      return [].concat(value);
     default:
       return value;
   }
@@ -116,12 +162,13 @@ const withInputs = inputs => (BaseComponent) => {
     handleOnChange(input, callback) {
       /** @callback */
       return (event) => {
-        const { value } = event.target;
+        const { validate, type } = inputs[input];
+
+        const value = (type === 'array') ?
+          getArrayValue(event.target, this.state[input]) :
+          event.target.value;
 
         const state = { [input]: value };
-
-
-        const { validate } = inputs[input];
 
         if (typeof validate === 'function') {
           state.errors = {
