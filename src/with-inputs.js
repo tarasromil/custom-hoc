@@ -126,6 +126,9 @@ const getInitialState = inputs => Object.keys(inputs).reduce((acc, input) => {
 }, {});
 
 
+const determineInputs = (inputs, props) => (typeof inputs === 'function' ? inputs(props) : inputs);
+
+
 /**
  * @function
  * @param {object} inputs - List of input fields
@@ -135,24 +138,20 @@ const withInputs = inputs => (BaseComponent) => {
   const factory = createFactory(BaseComponent);
 
   /**
-   * @const Contains generated initial state
-   * @type {object}
-   */
-  const initialState = getInitialState(inputs);
-
-  /**
    * @class WithInputs
    * @extends React.Component
    */
   class WithInputs extends Component {
     /** @constructor */
-    constructor() {
+    constructor(props) {
       super();
 
       this.handleOnChange = this.handleOnChange.bind(this);
       this.handleClear = this.handleClear.bind(this);
 
-      this.state = initialState;
+      this.inputs = determineInputs(inputs, props);
+
+      this.state = getInitialState(this.inputs);
     }
 
     /**
@@ -162,7 +161,7 @@ const withInputs = inputs => (BaseComponent) => {
     handleOnChange(input, callback) {
       /** @callback */
       return (event) => {
-        const { validate, type } = inputs[input];
+        const { validate, type } = this.inputs[input];
 
         const value = (type === 'array') ?
           getArrayValue(event.target, this.state[input]) :
@@ -186,7 +185,7 @@ const withInputs = inputs => (BaseComponent) => {
      * @param {function} callback - Will call after setState
      */
     handleClear(callback) {
-      this.setState(initialState, callback);
+      this.setState(getInitialState(this.inputs), callback);
     }
 
     /** @method */

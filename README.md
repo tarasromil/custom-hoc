@@ -33,7 +33,7 @@ export default hoc(BaseComponent);
 
 ```js
 withInputs(
-  fields: Object
+  fields: Object | (props: Object) => Object
 ): HigherOrderComponent
 ```
 Accepts object which has key (controlled input field name) and value (config)
